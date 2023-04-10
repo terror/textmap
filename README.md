@@ -2,7 +2,7 @@
 
 Playing around with heatmap-like visualizations for text-based content.
 
-![](https://files.catbox.moe/fr34s2.png)
+![Screenshot 2023-04-10 at 7 22 18 PM](https://user-images.githubusercontent.com/31192478/231017843-0adcd27b-5464-4a2e-8056-8abb63ed9d7c.png)
 
 ### Development
 
