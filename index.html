@@ -18,21 +18,27 @@
         }
       }
 
-      .container {
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 20px;
+        padding: 20px;
+      }
+
+      .center {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: center;
+        flex-direction: column;
+      }
+
+      #result {
+        margin-top: 46px;
       }
 
       textarea {
         overflow: hidden;
         resize: none;
-        width: 50%;
-      }
-
-      #result {
-        width: 50%;
+        width: 100%;
       }
 
       span {
@@ -41,10 +47,14 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <p>Write some text ✍️</p>
-      <textarea id="textarea" oninput="resize()" onchange="run()"></textarea>
-      <p id="result"></p>
+    <div class="grid">
+      <div class="center">
+        <p>Write some text ✍️</p>
+        <textarea id="textarea" oninput="resize()" onchange="run()"></textarea>
+      </div>
+      <div>
+        <p id="result"></p>
+      </div>
     </div>
     <script>
       const resize = () => {
@@ -72,9 +82,13 @@
           else if (item.score > 0.5) span.style.backgroundColor = '#fdfd96';
           else if (item.score > 0.25) span.style.backgroundColor = '#ffffe0';
 
-          span.innerHTML = item.text + ' ';
+          span.innerHTML = item.text;
+
+          const space = document.createElement('span');
+          space.innerHTML = ' ';
 
           par.appendChild(span);
+          par.appendChild(space);
         }
       };
     </script>
