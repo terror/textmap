@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>textmap</title>
+    <style>
+      @import url('https://rsms.me/inter/inter.css');
+      @import url('https://unpkg.com/normalize.css');
+
+      body {
+        font-family: 'Inter', sans-serif;
+      }
+
+      @supports (font-variation-settings: normal) {
+        body {
+          font-family: 'Inter var', sans-serif;
+          font-feature-settings: 'ss01' 1, 'kern' 1, 'liga' 1, 'cv05' 1,
+            'tnum' 1;
+        }
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      textarea {
+        overflow: hidden;
+        resize: none;
+        width: 50%;
+      }
+
+      #result {
+        width: 50%;
+      }
+
+      span {
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <p>Write some text ✍️</p>
+      <textarea id="textarea" oninput="resize()" onchange="run()"></textarea>
+      <p id="result"></p>
+    </div>
+    <script>
+      const resize = () => {
+        var textarea = document.getElementById('textarea');
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+      };
+
+      const run = async () => {
+        const result = await fetch('http://127.0.0.1:5000/map', {
+          method: 'POST',
+          headers: new Headers({ 'content-type': 'application/json' }),
+          body: document.getElementById('textarea').value,
+        });
+
+        const json = JSON.parse(await result.json());
+
+        const par = document.getElementById('result');
+        par.innerHTML = '';
+
+        for (const item of json.phrases) {
+          const span = document.createElement('span');
+
+          if (item.score > 0.75) span.style.backgroundColor = '#ffff00';
+          else if (item.score > 0.5) span.style.backgroundColor = '#fdfd96';
+          else if (item.score > 0.25) span.style.backgroundColor = '#ffffe0';
+
+          span.innerHTML = item.text + ' ';
+
+          par.appendChild(span);
+        }
+      };
+    </script>
+  </body>
+</html>
