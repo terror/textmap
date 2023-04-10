@@ -2,6 +2,8 @@
 
 Playing around with heatmap-like visualizations for text-based content.
 
+![](https://files.catbox.moe/fr34s2.png)
+
 ### Development
 
 Install dependencies:
