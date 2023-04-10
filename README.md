@@ -13,7 +13,7 @@ $ poetry install
 $ python3 -m spacy download en_core_web_sm
 ```
 
-_n.b. The second line is optional if you already have to model installed._
+_n.b. The second line is optional if you already have the model installed._
 
 Launch a shell:
 
