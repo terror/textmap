@@ -64,7 +64,7 @@
       };
 
       const run = async () => {
-        const result = await fetch('http://127.0.0.1:5000/map', {
+        const result = await fetch('/map', {
           method: 'POST',
           headers: new Headers({ 'content-type': 'application/json' }),
           body: document.getElementById('textarea').value,
