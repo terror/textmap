@@ -10,6 +10,9 @@ default:
 
 all: forbid fmt-check
 
+deploy:
+  railway up
+
 forbid:
   ./bin/forbid
 
