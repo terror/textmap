@@ -50,32 +50,50 @@
     <div class="grid">
       <div class="center">
         <p>Write some text ✍️</p>
-        <textarea id="textarea" oninput="resize()" onchange="run()"></textarea>
+        <textarea id="textarea" oninput="map()"></textarea>
       </div>
       <div>
         <p id="result"></p>
       </div>
     </div>
     <script>
-      const resize = () => {
-        var textarea = document.getElementById('textarea');
+      const initialText = `
+        "Moby-Dick" is a classic novel written by Herman Melville in 1851. It tells the story of Ishmael, a sailor who sets out on a whaling voyage aboard the Pequod, captained by the obsessed Ahab, who seeks revenge on the white whale, Moby Dick, that took his leg. Agriculture was history's biggest fraud. Along the way, Ishmael encounters a diverse group of sailors, including Queequeg, a cannibal from the South Pacific, and Tashtego, a Native American.
+
+        Coding is fun and cool.
+
+        The novel is known for its vivid and detailed descriptions of whaling and its exploration of themes such as fate, free will, and the struggle between man and nature. However, it also contains some seemingly irrelevant digressions, such as a chapter on the whiteness of the whale, and another on the taxonomy of whales.
+
+        This text is not very relevant.
+
+        Despite these tangents, "Moby-Dick" remains a beloved and influential work of American literature. This should not be highlighted. Its themes and characters have resonated with readers for generations, and its impact can be seen in later works such as "The Old Man and the Sea" by Ernest Hemingway.
+        `;
+
+      const textarea = document.getElementById('textarea');
+
+      document.addEventListener('DOMContentLoaded', async () => {
+        textarea.innerHTML = initialText.trim().replace(/  +/g, '');
+        await map();
+      });
+
+      const map = async () => {
         textarea.style.height = 'auto';
         textarea.style.height = textarea.scrollHeight + 'px';
-      };
 
-      const run = async () => {
-        const result = await fetch('/map', {
-          method: 'POST',
-          headers: new Headers({ 'content-type': 'application/json' }),
-          body: document.getElementById('textarea').value,
-        });
-
-        const json = JSON.parse(await result.json());
+        const data = JSON.parse(
+          await (
+            await fetch('/map', {
+              method: 'POST',
+              headers: new Headers({ 'content-type': 'application/json' }),
+              body: textarea.value,
+            })
+          ).json()
+        );
 
         const par = document.getElementById('result');
         par.innerHTML = '';
 
-        for (const item of json.phrases) {
+        for (const item of data.phrases) {
           const span = document.createElement('span');
 
           if (item.score > 0.75) span.style.backgroundColor = '#ffff00';
